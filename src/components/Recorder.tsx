@@ -1,7 +1,8 @@
-import { useState } from "react"
 import styled from "styled-components"
 import { useRecorder } from "../hooks/useRecorder"
 import { ClipWaveform } from "./ClipWaveform"
+import { set } from "idb-keyval"
+import startGeneration from "../api/generate"
 
 const RecordButton = styled.button`
   margin-bottom: 24px;
@@ -29,8 +30,7 @@ const RecordButton = styled.button`
 `
 
 export function RecorderComponent() {
-  const { recording, lastRecording, start, stop, getWaveformData } =
-    useRecorder()
+  const { recording, lastRecording, start, stop } = useRecorder()
 
   const toggleRecording = async () => {
     if (!recording) {
@@ -42,12 +42,18 @@ export function RecorderComponent() {
       // show visualization?
     } else {
       const blob = await stop()
-
       console.log("stopped recording!")
-      console.log("blob: ", blob)
 
-      // update state to show finished visualization and a button to press upload / generate variations.
+      await set("lastRecording", blob)
     }
+  }
+
+  const getVariation = async () => {
+    await startGeneration({
+      inputAudio: lastRecording,
+      prompt:
+        "make a next set of harmony in a minor key based on the keys from this input recording",
+    })
   }
 
   return (
@@ -56,6 +62,9 @@ export function RecorderComponent() {
         {recording ? "Stop" : "Record"}
       </RecordButton>
       <ClipWaveform audio={lastRecording} />
+
+      <button onClick={() => getVariation()}>generate!</button>
+      {/* <GeneratedWaveform audio={lastRecording} /> */}
     </div>
   )
 }

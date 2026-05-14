@@ -7,7 +7,7 @@ export function useRecorder() {
   const [lastRecording, setLastRecording] = useState<Blob | null>(null)
 
   const start = useCallback(async () => {
-    if (recorderRef.current) return // somethign went wrong
+    if (recorderRef.current) return // something went wrong
     const recorder = new Recorder()
     await recorder.start()
     recorderRef.current = recorder

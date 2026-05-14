@@ -42,9 +42,16 @@ export function ClipWaveform({ audio, height }: ClipWaveformProps) {
     }
   }, [audio, height])
 
-  return (
+  const togglePlay = () => {
+    wavesurferRef.current?.playPause()
+  }
+
+  return audio ? (
     <div>
+      <button type="button" onClick={togglePlay}>
+        {isPlaying ? "Pause" : "Play"}
+      </button>
       <div ref={containerRef}></div>
     </div>
-  )
+  ) : null
 }

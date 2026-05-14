@@ -10,12 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "idb-keyval": "^6.2.2",
+    "mime-types": "^3.0.2",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "styled-components": "^6.4.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/mime-types": "^3.0.1",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
